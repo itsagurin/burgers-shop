@@ -1,16 +1,32 @@
-.cart {
-  width: 100%;
-  max-width: 400px;
-  background-color: white;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.cart-desc {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
   h2 {
-    text-align: center;
     margin-bottom: 20px;
-    font-size: 1.2rem;
+    color: rgb(0, 0, 0);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 100%;
+    text-align: left;
   }
+
+  .quantity-total {
+    width: 41px;
+    height: 20px;
+    border-radius: 6px;
+    background: rgb(242, 242, 243);
+    padding: 2px 16px;
+  }
+}
+
+.cart {
+  max-height: 467px;
+  max-width: 300px;
+  background: rgb(255, 255, 255);
+  border-radius: 18px;
+  padding: 20px;
 
   .cart-items {
     display: flex;
@@ -23,10 +39,23 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -7.5px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background-color: rgba(177, 177, 177, 0.3);
+    }
+
+    &:last-child::after {
+      display: none;
+    }
 
     .item-image {
-      width: 80px;
-      height: 80px;
       object-fit: cover;
       border-radius: 8px;
     }
@@ -37,19 +66,36 @@
       flex-direction: column;
 
       .item-name {
-        font-weight: bold;
+        color: rgb(0, 0, 0);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        text-align: left;
       }
 
       .item-price {
-        color: #666;
+        color: rgb(0, 0, 0);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        text-align: left;
+      }
+
+      .item-weight {
+        color: rgb(177, 177, 177);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+        text-align: left;
+        margin-bottom: 6px;
       }
     }
 
     .quantity-control {
+      border-radius: 12px;
+      background: rgb(242, 242, 243);
       display: flex;
       align-items: center;
-      border: 1px solid #ddd;
-      border-radius: 6px;
 
       .quantity-button {
         background: none;
@@ -85,7 +131,7 @@
     border: none;
     padding: 15px;
     border-radius: 8px;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
 
@@ -95,9 +141,11 @@
   }
 
   .delivery-info {
-    text-align: center;
+    text-align: left;
     margin-top: 15px;
-    color: #666;
-    font-size: 0.9rem;
+    color: rgb(0, 0, 0);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
   }
 }

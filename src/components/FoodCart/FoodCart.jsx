@@ -1,57 +1,60 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './FoodCart.scss';
-
-// Images would need to be imported or replaced with actual image paths
-import superCheeseBurger from '../../assets/burgers_mini/super-cheese-burger.png';
-import frenchFries from '../../assets/burgers_mini/frenchFries.png';
-import hotDog from '../../assets/burgers_mini/hotDog.png';
+import { foodItems } from "../../data/test_data/cartItems.js";
 
 const FoodCart = () => {
-    const [items, setItems] = useState([
-        {
-            id: 1,
-            name: 'Супер сырный',
-            image: superCheeseBurger,
-            price: 550,
-            quantity: 1
-        },
-        {
-            id: 2,
-            name: 'Картошка фри',
-            image: frenchFries,
-            price: 245,
-            quantity: 2
-        },
-        {
-            id: 3,
-            name: 'Жгучий хот-дог',
-            image: hotDog,
-            price: 239,
-            quantity: 1
-        }
-    ]);
+    const [items, setItems] = useState(foodItems);
 
     const updateQuantity = (id, change) => {
-        setItems(items.map(item =>
-            item.id === id
-                ? { ...item, quantity: Math.max(0, item.quantity + change) }
-                : item
-        ));
+        const updatedItems = items.map((item) => {
+            if (item.id === id) {
+                const newQuantity = Math.max(0, item.quantity + change);
+                return { ...item, quantity: newQuantity };
+            }
+            return item;
+        });
+
+        setItems(updatedItems);
     };
 
     const calculateTotal = () => {
-        return items.reduce((total, item) => total + (item.price * item.quantity), 0);
+        const totalPrice = items.reduce((accumulator, currentItem) => {
+            return accumulator + (currentItem.price * currentItem.quantity);
+        }, 0);
+
+        return totalPrice;
+    };
+
+    const calculateTotalQuantity = () => {
+        const totalQuantity = items.reduce((accumulator, currentItem) => {
+            return accumulator + currentItem.quantity;
+        }, 0);
+
+        return totalQuantity;
+    };
+
+    const shouldShowDeliveryInfo = () => {
+        const totalQuantity = calculateTotalQuantity();
+        const totalPrice = calculateTotal();
+
+        return totalQuantity > 7 || totalPrice > 2500;
     };
 
     return (
         <div className="cart">
-            <h2>Корзина</h2>
+            <div className="cart-desc">
+                <h2>Корзина</h2>
+                <div className="quantity-total">
+                    {calculateTotalQuantity()}
+                </div>
+            </div>
             <div className="cart-items">
                 {items.map(item => (
                     <div key={item.id} className="cart-item">
                         <img src={item.image} alt={item.name} className="item-image" />
                         <div className="item-details">
                             <span className="item-name">{item.name}</span>
+                            <span className="item-weight">{item.weight}г</span>
                             <span className="item-price">{item.price}₽</span>
                         </div>
                         <div className="quantity-control">
@@ -77,9 +80,11 @@ const FoodCart = () => {
                 <span className="total-price">{calculateTotal()}₽</span>
             </div>
             <button className="order-button">Оформить заказ</button>
-            <div className="delivery-info">
-                <span>🚚 Бесплатная доставка</span>
-            </div>
+            {shouldShowDeliveryInfo() && (
+                <div className="delivery-info">
+                    <span>🚚 Бесплатная доставка</span>
+                </div>
+            )}
         </div>
     );
 };
