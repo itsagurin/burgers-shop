@@ -1,4 +1,10 @@
-@import "fonts";
+@use "fonts" as *;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
   background: rgb(249, 249, 249);
