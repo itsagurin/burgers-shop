@@ -27,3 +27,22 @@ $gutter-x: 0.75rem;
     max-width: 1320px;
   }
 }
+
+.main-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 35px;
+  margin: 20px 0;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
+}
+
+.menu-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
