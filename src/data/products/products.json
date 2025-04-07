@@ -1,0 +1,310 @@
+{
+  "burgers": {
+    "title": "Бургеры",
+    "items": [
+      {
+        "id": "1",
+        "name": "Мясная бомба",
+        "price": "689",
+        "weight": "520г",
+        "image": "/src/assets/products/meat-bomb.png"
+      },
+      {
+        "id": "2",
+        "name": "Супер сырный",
+        "price": "550",
+        "weight": "512г",
+        "image": "/src/assets/products/super-cheese.png"
+      },
+      {
+        "id": "3",
+        "name": "Сытный",
+        "price": "639",
+        "weight": "580г",
+        "image": "/src/assets/products/burger-satisfying.png"
+      },
+      {
+        "id": "4",
+        "name": "Тяжелый удар",
+        "price": "480",
+        "weight": "470г",
+        "image": "/src/assets/products/burger-heavy-hit.png"
+      },
+      {
+        "id": "5",
+        "name": "Вечная классика",
+        "price": "450",
+        "weight": "450г",
+        "image": "/src/assets/products/burger-classic.png"
+      },
+      {
+        "id": "6",
+        "name": "Итальянский",
+        "price": "560",
+        "weight": "510г",
+        "image": "/src/assets/products/burger-italian.png"
+      }
+    ]
+  },
+  "snacks": {
+    "title": "Закуски",
+    "items": [
+      {
+        "id": "7",
+        "name": "Начос",
+        "price": "250",
+        "weight": "220г",
+        "image": "/src/assets/products/nachos.png"
+      },
+      {
+        "id": "8",
+        "name": "Картошка фри",
+        "price": "245",
+        "weight": "180г",
+        "image": "/src/assets/products/potato-fries.png"
+      },
+      {
+        "id": "9",
+        "name": "Луковые кольца",
+        "price": "230",
+        "weight": "160г",
+        "image": "/src/assets/products/onion-rings.png"
+      },
+      {
+        "id": "10",
+        "name": "Брускетта с семгой и гуакомоле",
+        "price": "395",
+        "weight": "100г",
+        "image": "/src/assets/products/bruschetta-salmon-guacamole.png"
+      },
+      {
+        "id": "11",
+        "name": "Мясные деликатесы",
+        "price": "1675",
+        "weight": "390г",
+        "image": "/src/assets/products/meat-delicacies.png"
+      },
+      {
+        "id": "12",
+        "name": "Камамбер запечённый",
+        "price": "790",
+        "weight": "260г",
+        "image": "/src/assets/products/baked-camembert.png"
+      }
+    ]
+  },
+  "hotdogs": {
+    "title": "Хот-доги",
+    "items": [
+      {
+        "id": "13",
+        "name": "Домашний хот-дог",
+        "price": "290",
+        "weight": "250г",
+        "image": "/src/assets/products/hotdog-home.png"
+      },
+      {
+        "id": "14",
+        "name": "Жгучий хот-дог",
+        "price": "239",
+        "weight": "245г",
+        "image": "/src/assets/products/hotdog-spicy.png"
+      },
+      {
+        "id": "15",
+        "name": "Классический хот-дог",
+        "price": "220",
+        "weight": "215г",
+        "image": "/src/assets/products/hotdog-classic.png"
+      },
+      {
+        "id": "16",
+        "name": "Гусар дог",
+        "price": "505",
+        "weight": "320г",
+        "image": "/src/assets/products/hussar-dog.png"
+      },
+      {
+        "id": "17",
+        "name": "Много мяса дог",
+        "price": "665",
+        "weight": "350г",
+        "image": "/src/assets/products/meat-dog.png"
+      },
+      {
+        "id": "18",
+        "name": "Пеппи длинный дог",
+        "price": "545",
+        "weight": "330г",
+        "image": "/src/assets/products/peppi-long-dog.png"
+      }
+    ]
+  },
+  "combos": {
+    "title": "Комбо",
+    "items": [
+      {
+        "id": "19",
+        "name": "Двойной Гранд Комбо",
+        "price": "329",
+        "weight": "Вес уточняйте",
+        "image": "/src/assets/products/double-combo-grand.png"
+      },
+      {
+        "id": "20",
+        "name": "Супер Бокс для тебя",
+        "price": "299",
+        "weight": "Вес уточняйте",
+        "image": "/src/assets/products/super-box-for-you.png"
+      },
+      {
+        "id": "21",
+        "name": "Стрипсы Комбо",
+        "price": "198",
+        "weight": "Вес уточняйте",
+        "image": "/src/assets/products/strips-combo.png"
+      },
+      {
+        "id": "22",
+        "name": "Семейный сет на троих",
+        "price": "858",
+        "weight": "Вес уточняйте",
+        "image": "/src/assets/products/family-set-for-three.png"
+      },
+      {
+        "id": "23",
+        "name": "Звёздное Комбо Юлии Пересильд",
+        "price": "305",
+        "weight": "Вес уточняйте",
+        "image": "/src/assets/products/star-combo-julia-peresild.png"
+      },
+      {
+        "id": "24",
+        "name": "Сет для Большой Компании",
+        "price": "999",
+        "weight": "Вес уточняйте",
+        "image": "/src/assets/products/big-company-set.png"
+      }
+    ]
+  },
+  "shurmas": {
+    "title": "Шаурма",
+    "items": [
+      {
+        "id": "25",
+        "name": "Шаверма по-питерски",
+        "price": "384",
+        "weight": "500г",
+        "image": "/src/assets/products/shaverma-po-piter.png"
+      },
+      {
+        "id": "26",
+        "name": "Ай-шаурма",
+        "price": "164",
+        "weight": "185г",
+        "image": "/src/assets/products/shaverma-ai.png"
+      },
+      {
+        "id": "27",
+        "name": "Чикен Чиз",
+        "price": "214",
+        "weight": "165г",
+        "image": "/src/assets/products/shaverma-chicken-chees.png"
+      },
+      {
+        "id": "28",
+        "name": "Деревенский денёр",
+        "price": "274",
+        "weight": "345г",
+        "image": "/src/assets/products/village-diner.png"
+      },
+      {
+        "id": "29",
+        "name": "Берлин денёр",
+        "price": "274",
+        "weight": "315г",
+        "image": "/src/assets/products/berlin-diner.png"
+      },
+      {
+        "id": "30",
+        "name": "Вегетарианский денёр",
+        "price": "244",
+        "weight": "300г",
+        "image": "/src/assets/products/vegetarian-doner.png"
+      }
+    ]
+  },
+  "pizza": {
+    "title": "Пицца",
+    "items": [
+      {
+        "id": "31",
+        "name": "Чили Грин",
+        "price": "579",
+        "weight": "560г",
+        "image": "/src/assets/products/pizza-chili-green.png"
+      },
+      {
+        "id": "32",
+        "name": "Баварская",
+        "price": "549",
+        "weight": "560г",
+        "image": "/src/assets/products/pizza-bavarian.png"
+      },
+      {
+        "id": "33",
+        "name": "Креветка и Песто",
+        "price": "679",
+        "weight": "560г",
+        "image": "/src/assets/products/pizza-shrimp-pesto.png"
+      },
+      {
+        "id": "34",
+        "name": "Мясной микс с говядиной и колбасками",
+        "price": "599",
+        "weight": "560г",
+        "image": "/src/assets/products/pizza-meat-mix.png"
+      },
+      {
+        "id": "35",
+        "name": "Бефстроганов",
+        "price": "549",
+        "weight": "560г",
+        "image": "/src/assets/products/pizza-beef-stroganoff.png"
+      },
+      {
+        "id": "36",
+        "name": "Креветки со сладким чили",
+        "price": "649",
+        "weight": "560г",
+        "image": "/src/assets/products/pizza-shrimp-sweet-chili.png"
+      }
+    ]
+  },
+  "vok": {
+    "title": "Вок",
+    "items": [
+      {
+        "id": "37",
+        "name": "Вок вегетарианский с рисом",
+        "price": "359",
+        "weight": "370г",
+        "image": "/src/assets/products/wok-vegetarian-rice.png"
+      },
+      {
+        "id": "38",
+        "name": "Вок Тайская креветка",
+        "price": "379",
+        "weight": "330г",
+        "image": "/src/assets/products/wok-thai-shrimp.png"
+      },
+      {
+        "id": "39",
+        "name": "Вок панаазиатский",
+        "price": "519",
+        "weight": "340г",
+        "image": "/src/assets/products/wok-pan-asian.png"
+      }
+    ]
+  }
+}

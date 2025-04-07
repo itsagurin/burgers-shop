@@ -42,10 +42,7 @@ const FoodCart = () => {
 
     const isEmpty = items.length === 0;
 
-    // Function to get the correct image path
     const getImagePath = (relativePath) => {
-        // Convert the path to be relative to the public folder
-        // Remove the leading "../../" if it exists
         return relativePath.replace(/^\.\.\/\.\.\//, '/');
     };
 
