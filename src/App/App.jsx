@@ -4,6 +4,7 @@ import FoodCart from "../components/FoodCart/FoodCart.jsx";
 import Header from "../components/Header/Header.jsx";
 import MenuNavbar from "../components/MenuNavbar/MenuNavbar.jsx";
 import MenuContent from "../components/MenuContent/MenuContent.jsx";
+import Footer from "../components/Footer/Footer.jsx";
 
 function App() {
     const [activeCategory, setActiveCategory] = useState('burgers');
@@ -27,6 +28,7 @@ function App() {
                     <FoodCart />
                 </div>
             </div>
+            <Footer />
         </>
     )
 }

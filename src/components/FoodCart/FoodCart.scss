@@ -2,9 +2,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 20px;
 
   h2 {
-    margin-bottom: 20px;
+    margin: 0;  /* Remove margin from h2 */
     color: rgb(0, 0, 0);
     font-size: 24px;
     font-weight: 600;
@@ -18,12 +19,15 @@
     border-radius: 6px;
     background: rgb(242, 242, 243);
     padding: 2px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
 .cart {
   max-height: 467px;
-  max-width: 300px;
+  width: 300px;
   background: rgb(255, 255, 255);
   border-radius: 18px;
   padding: 20px;
@@ -56,6 +60,8 @@
     }
 
     .item-image {
+      width: 64px;
+      height: 64px;
       object-fit: cover;
       border-radius: 8px;
     }
