@@ -36,7 +36,18 @@ $gutter-x: 0.75rem;
   margin: 20px 0;
 
   @media (max-width: 992px) {
-    flex-direction: column;
+    flex-direction: column-reverse;
+    position: relative;
+
+    .menu-section {
+      margin-top: 10px;
+    }
+
+    .cart {
+      position: relative;
+      z-index: 10;
+      align-self: flex-start;
+    }
   }
 }
 

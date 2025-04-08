@@ -147,42 +147,42 @@
         "id": "19",
         "name": "Двойной Гранд Комбо",
         "price": "329",
-        "weight": "Вес уточняйте",
+        "weight": "250г",
         "image": "/src/assets/products/double-combo-grand.png"
       },
       {
         "id": "20",
         "name": "Супер Бокс для тебя",
         "price": "299",
-        "weight": "Вес уточняйте",
+        "weight": "600г",
         "image": "/src/assets/products/super-box-for-you.png"
       },
       {
         "id": "21",
         "name": "Стрипсы Комбо",
         "price": "198",
-        "weight": "Вес уточняйте",
+        "weight": "600г",
         "image": "/src/assets/products/strips-combo.png"
       },
       {
         "id": "22",
         "name": "Семейный сет на троих",
         "price": "858",
-        "weight": "Вес уточняйте",
+        "weight": "400г",
         "image": "/src/assets/products/family-set-for-three.png"
       },
       {
         "id": "23",
         "name": "Звёздное Комбо Юлии Пересильд",
         "price": "305",
-        "weight": "Вес уточняйте",
+        "weight": "700г",
         "image": "/src/assets/products/star-combo-julia-peresild.png"
       },
       {
         "id": "24",
         "name": "Сет для Большой Компании",
         "price": "999",
-        "weight": "Вес уточняйте",
+        "weight": "600г",
         "image": "/src/assets/products/big-company-set.png"
       }
     ]
@@ -304,6 +304,58 @@
         "price": "519",
         "weight": "340г",
         "image": "/src/assets/products/wok-pan-asian.png"
+      }
+    ]
+  },
+  "sauces": {
+    "title": "Соусы",
+    "items": [
+      {
+        "id": "40",
+        "name": "Кетчуп",
+        "price": "49",
+        "weight": "50г",
+        "image": "/src/assets/products/ketchup.png"
+      },
+      {
+        "id": "41",
+        "name": "Горчица",
+        "price": "49",
+        "weight": "30г",
+        "image": "/src/assets/products/mustard-sauce.png"
+      },
+      {
+        "id": "42",
+        "name": "Кисло-сладкий",
+        "price": "49",
+        "weight": "30г",
+        "image": "/src/assets/products/sweet-sour-sauce.png"
+      },
+      {
+        "id": "43",
+        "name": "Чесночный",
+        "price": "49",
+        "weight": "30г",
+        "image": "/src/assets/products/garlic-sauce.png"
+      },
+      {
+        "id": "44",
+        "name": "Сырный",
+        "price": "49",
+        "weight": "30г",
+        "image": "/src/assets/products/cheese-sauce.png"
+      }
+    ]
+  },
+  "desserts": {
+    "title": "Десерты",
+    "items": [
+      {
+        "id": "45",
+        "name": "Тирамису",
+        "price": "249",
+        "weight": "350г",
+        "image": "/src/assets/products/tiramisu.png"
       }
     ]
   }

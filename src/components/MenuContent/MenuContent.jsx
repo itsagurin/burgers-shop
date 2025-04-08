@@ -1,26 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './MenuContent.scss';
 import { categories } from "../../data/categories/categories.js";
 import productsData from "../../data/products/products.json";
+import { addToCart } from "../FoodCart/helper/helper.js";
+import { categoryToProductsMap } from "../../data/categoryToProductsMap/categoryToProductsMap.js";
 
-const MenuContent = ({ activeCategory }) => {
+const MenuContent = ({ activeCategory, cartItems, setCartItems }) => {
+    const [addedProductId, setAddedProductId] = useState(null);
     const categoryName = categories.find(cat => cat.id === activeCategory)?.name;
 
-    const categoryToProductsMap = {
-        'burgers': 'burgers',
-        'appetizers': 'snacks',
-        'hotdogs': 'hotdogs',
-        'combo': 'combos',
-        'shawarma': 'shurmas',
-        'pizza': 'pizza',
-        'wok': 'vok',
-        'desserts': null,
-        'sauces': null
-    };
-
     const productsKey = categoryToProductsMap[activeCategory];
-
     const categoryProducts = productsKey ? productsData[productsKey]?.items : null;
+
+    const handleAddToCart = (product) => {
+        addToCart(product, cartItems, setCartItems);
+
+        setAddedProductId(product.id);
+        setTimeout(() => {
+            setAddedProductId(null);
+        }, 500);
+    };
 
     return (
         <div className="menu-content">
@@ -37,7 +36,12 @@ const MenuContent = ({ activeCategory }) => {
                                 <div className="product-price">{product.price}₽</div>
                                 <h3 className="product-name">{product.name}</h3>
                                 <div className="product-weight">{product.weight}</div>
-                                <button className="add-button">Добавить</button>
+                                <button
+                                    className={`add-button ${addedProductId === product.id ? 'added' : ''}`}
+                                    onClick={() => handleAddToCart(product)}
+                                >
+                                    {addedProductId === product.id ? 'Добавлено' : 'Добавить'}
+                                </button>
                             </div>
                         </div>
                     ))}

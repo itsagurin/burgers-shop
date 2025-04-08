@@ -1,26 +1,3 @@
 [
-  {
-    "id": 1,
-    "name": "Супер сырный",
-    "image": "/src/assets/burgers_mini/super-cheese-burger.png",
-    "weight": 512,
-    "price": 550,
-    "quantity": 0
-  },
-  {
-    "id": 2,
-    "name": "Картошка фри",
-    "image": "/src/assets/burgers_mini/frenchFries.png",
-    "weight": 180,
-    "price": 245,
-    "quantity": 0
-  },
-  {
-    "id": 3,
-    "name": "Жгучий хот-дог",
-    "image": "/src/assets/burgers_mini/hotDog.png",
-    "weight": 245,
-    "price": 239,
-    "quantity": 0
-  }
+
 ]

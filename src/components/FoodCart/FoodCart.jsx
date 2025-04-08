@@ -1,20 +1,19 @@
 import { useState } from 'react';
 import './FoodCart.scss';
-import cartItems from "../../data/cart/cartItems.json";
+import { changeQuantity } from "./helper/helper.js";
 
-const FoodCart = () => {
-    const [items, setItems] = useState(cartItems || []);
+const FoodCart = ({ cartItems, setCartItems }) => {
+    const [isExpanded, setIsExpanded] = useState(false);
 
-    const updateQuantity = (id, change) => {
-        const updatedItems = items.map((item) => {
-            if (item.id === id) {
-                const newQuantity = Math.max(0, item.quantity + change);
-                return { ...item, quantity: newQuantity };
-            }
-            return item;
-        });
+    const items = cartItems || [];
+    const setItems = setCartItems || (() => {});
 
-        setItems(updatedItems);
+    const toggleExpand = () => {
+        setIsExpanded(!isExpanded);
+    };
+
+    const handleUpdateQuantity = (id, change) => {
+        changeQuantity(id, change, items, setItems);
     };
 
     const calculateTotal = () => {
@@ -40,14 +39,14 @@ const FoodCart = () => {
         return totalQuantity > 7 || totalPrice > 2500;
     };
 
-    const isEmpty = items.length === 0;
+    const isEmpty = items.every(item => item.quantity === 0);
 
     const getImagePath = (relativePath) => {
         return relativePath.replace(/^\.\.\/\.\.\//, '/');
     };
 
     return (
-        <div className="cart">
+        <div className={`cart ${isExpanded ? 'cart-expanded' : ''}`} onClick={toggleExpand}>
             <div className="cart-desc">
                 <h2>Корзина</h2>
                 <div className="quantity-total">
@@ -60,7 +59,7 @@ const FoodCart = () => {
             ) : (
                 <>
                     <div className="cart-items">
-                        {items.map(item => (
+                        {items.filter(item => item.quantity > 0).map(item => (
                             <div key={item.id} className="cart-item">
                                 <img
                                     src={getImagePath(item.image)}
@@ -74,14 +73,20 @@ const FoodCart = () => {
                                 </div>
                                 <div className="quantity-control">
                                     <button
-                                        onClick={() => updateQuantity(item.id, -1)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleUpdateQuantity(item.id, -1);
+                                        }}
                                         className="quantity-button"
                                     >
                                         -
                                     </button>
                                     <span className="quantity">{item.quantity}</span>
                                     <button
-                                        onClick={() => updateQuantity(item.id, 1)}
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleUpdateQuantity(item.id, 1);
+                                        }}
                                         className="quantity-button"
                                     >
                                         +
@@ -94,7 +99,12 @@ const FoodCart = () => {
                         <span>Итого</span>
                         <span className="total-price">{calculateTotal()}₽</span>
                     </div>
-                    <button className="order-button">Оформить заказ</button>
+                    <button
+                        className="order-button"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        Оформить заказ
+                    </button>
                     {shouldShowDeliveryInfo() && (
                         <div className="delivery-info">
                             <span>🚚 Бесплатная доставка</span>
