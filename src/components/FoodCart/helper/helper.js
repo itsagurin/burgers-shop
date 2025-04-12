@@ -25,12 +25,21 @@ export const changeQuantity = (id, change, cart, setCart) => {
     setCart(arr);
 };
 
-export const addToCart = (product, cart, setCart) => {
+export const addToCart = (product, cart, setCart, customQuantity = 1) => {
     const productId = parseInt(product.id);
     const existingItem = cart.find(item => item.id === productId);
 
     if (existingItem) {
-        changeQuantity(productId, 1, cart, setCart);
+        const updatedCart = cart.map(item => {
+            if (item.id === productId) {
+                return {
+                    ...item,
+                    quantity: item.quantity + customQuantity
+                };
+            }
+            return item;
+        });
+        setCart(updatedCart);
     } else {
         const weightValue = parseInt(product.weight.replace(/\D/g, ''));
 
@@ -40,7 +49,7 @@ export const addToCart = (product, cart, setCart) => {
             image: product.image,
             weight: weightValue,
             price: parseInt(product.price),
-            quantity: 1
+            quantity: customQuantity
         };
 
         setCart([...cart, newItem]);

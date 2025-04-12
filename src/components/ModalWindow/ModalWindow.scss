@@ -22,6 +22,8 @@
   position: relative;
   overflow: hidden;
   padding: 24px;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-close-button {
@@ -40,17 +42,26 @@
   }
 }
 
+.modal-product-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: #000;
+}
+
 .modal-content {
   display: flex;
-  height: 100%;
+  flex: 1;
   gap: 24px;
+  overflow: auto;
 }
 
 .modal-product-image {
-  width: 310px;
-  height: 100%;
-  border-radius: 12px;
+  width: 276px;
+  height: 220px;
+  border-radius: 16px;
   overflow: hidden;
+  flex-shrink: 0;
 
   img {
     width: 100%;
@@ -63,13 +74,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.modal-product-title {
-  font-size: 32px;
-  font-weight: 700;
-  margin: 0 0 16px;
-  color: #000;
+  overflow-y: auto;
 }
 
 .modal-product-description {
@@ -113,10 +118,27 @@
   margin-bottom: 12px;
 }
 
+.modal-actions-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.modal-button-price {
+  span {
+    color: rgb(0, 0, 0);
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 130%;
+    text-align: left;
+  }
+}
+
 .modal-actions {
-  margin-top: auto;
+  margin-top: 16px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
 }
 
@@ -154,7 +176,7 @@
 }
 
 .modal-add-button {
-  flex: 1;
+  width: 276px;
   height: 40px;
   padding: 0 20px;
   border: none;

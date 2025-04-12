@@ -46,10 +46,7 @@ const MenuContent = ({ activeCategory, cartItems, setCartItems }) => {
     };
 
     const handleAddFromModal = (product) => {
-        // Добавляем продукт количество раз, равное quantity
-        for (let i = 0; i < quantity; i++) {
-            addToCart(product, cartItems, setCartItems);
-        }
+        addToCart(product, cartItems, setCartItems, quantity);
         closeModal();
     };
 
