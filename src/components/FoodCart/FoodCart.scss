@@ -32,182 +32,68 @@
   border-radius: 18px;
   padding: 20px;
   transition: all 0.3s ease;
+}
 
-  .cart-items {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 20px;
-    max-height: 300px;
-    overflow-y: auto;
-  }
+.cart-mobile {
+  width: 145px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  cursor: pointer;
 
-  .cart-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: -7.5px;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background-color: rgba(177, 177, 177, 0.3);
-    }
-
-    &:last-child::after {
-      display: none;
-    }
-
-    .item-image {
-      width: 64px;
-      height: 64px;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-
-    .item-details {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-
-      .item-name {
-        color: rgb(0, 0, 0);
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 16px;
-        text-align: left;
-      }
-
-      .item-price {
-        color: rgb(0, 0, 0);
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 16px;
-        text-align: left;
-      }
-
-      .item-weight {
-        color: rgb(177, 177, 177);
-        font-size: 12px;
-        font-weight: 400;
-        line-height: 16px;
-        text-align: left;
-        margin-bottom: 6px;
-      }
-    }
-
-    .quantity-control {
-      border-radius: 12px;
-      background: rgb(242, 242, 243);
-      display: flex;
-      align-items: center;
-
-      .quantity-button {
-        background: none;
-        border: none;
-        padding: 8px 12px;
-        cursor: pointer;
-        font-size: 1rem;
-        color: #333;
-      }
-
-      .quantity {
-        padding: 0 10px;
-        font-weight: bold;
-      }
-    }
-  }
-
-  .cart-summary {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    font-weight: bold;
-
-    .total-price {
-      color: #000;
-    }
-  }
-
-  .order-button {
+  .cart-desc {
+    margin-bottom: 0;
     width: 100%;
-    background-color: #ff6b00;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 
-    &:hover {
-      background-color: #ff8533;
-    }
-  }
-
-  .delivery-info {
-    text-align: left;
-    margin-top: 15px;
-    color: rgb(0, 0, 0);
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 16px;
-  }
-
-  @media (max-width: 992px) {
-    width: 145px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    padding: 10px 15px;
-    margin-bottom: 15px;
-
-    .cart-desc {
-      margin-bottom: 0;
-      width: 100%;
-
-      h2 {
-        font-size: 16px;
-      }
-    }
-
-    .cart-items,
-    .cart-summary,
-    .order-button,
-    .delivery-info,
-    .empty-cart-message {
-      display: none;
+    h2 {
+      font-size: 16px;
     }
   }
 }
 
-.cart-expanded {
-  @media (max-width: 992px) {
-    width: 300px;
-    height: auto;
-    max-height: 467px;
-    padding: 20px;
-    overflow: visible;
+.modal-backdrop {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  background-color: transparent;
+}
 
-    .cart-desc {
-      margin-bottom: 20px;
+.cart-modal {
+  width: 300px;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 1001;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  background: rgb(255, 255, 255);
+  border-radius: 18px;
+}
 
-      h2 {
-        font-size: 24px;
-      }
-    }
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-    .cart-items,
-    .cart-summary,
-    .order-button,
-    .delivery-info,
-    .empty-cart-message {
-      display: flex;
-    }
-  }
+.close-modal-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #777;
+  padding: 5px;
+}
+
+body.modal-open {
+  overflow: hidden;
 }

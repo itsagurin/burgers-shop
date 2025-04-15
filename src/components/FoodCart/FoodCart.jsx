@@ -1,15 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './FoodCart.scss';
 import { changeQuantity } from "./helper/helper.js";
+import CartContent from '../CartContent/CartContent.jsx';
 
 const FoodCart = ({ cartItems, setCartItems }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
 
     const items = cartItems || [];
     const setItems = setCartItems || (() => {});
 
+    useEffect(() => {
+        const checkIfMobile = () => {
+            setIsMobile(window.innerWidth <= 992);
+        };
+
+        checkIfMobile();
+
+        window.addEventListener('resize', checkIfMobile);
+
+        return () => {
+            window.removeEventListener('resize', checkIfMobile);
+        };
+    }, []);
+
     const toggleExpand = () => {
         setIsExpanded(!isExpanded);
+
+        if (isMobile) {
+            if (!isExpanded) {
+                document.body.classList.add('modal-open');
+            } else {
+                document.body.classList.remove('modal-open');
+            }
+        }
+    };
+
+    const handleModalBackdropClick = (e) => {
+        if (e.target.classList.contains('modal-backdrop')) {
+            toggleExpand();
+        }
     };
 
     const handleUpdateQuantity = (id, change) => {
@@ -39,80 +69,72 @@ const FoodCart = ({ cartItems, setCartItems }) => {
         return totalQuantity > 7 || totalPrice > 2500;
     };
 
-    const isEmpty = items.every(item => item.quantity === 0);
+    const isEmpty = items.length === 0 || items.every(item => item.quantity === 0);
 
     const getImagePath = (relativePath) => {
         return relativePath.replace(/^\.\.\/\.\.\//, '/');
     };
 
     return (
-        <div className={`cart ${isExpanded ? 'cart-expanded' : ''}`} onClick={toggleExpand}>
-            <div className="cart-desc">
-                <h2>Корзина</h2>
-                <div className="quantity-total">
-                    {calculateTotalQuantity()}
+        <>
+            <div
+                className={`cart ${isMobile ? 'cart-mobile' : ''}`}
+                onClick={toggleExpand}
+            >
+                <div className="cart-desc">
+                    <h2>Корзина</h2>
+                    <div className="quantity-total">
+                        {calculateTotalQuantity()}
+                    </div>
                 </div>
+
+                {!isMobile && (
+                    <CartContent
+                        items={items}
+                        isEmpty={isEmpty}
+                        getImagePath={getImagePath}
+                        handleUpdateQuantity={handleUpdateQuantity}
+                        calculateTotal={calculateTotal}
+                        shouldShowDeliveryInfo={shouldShowDeliveryInfo}
+                    />
+                )}
             </div>
 
-            {isEmpty ? (
-                <div className="empty-cart-message">Тут пока пусто :(</div>
-            ) : (
-                <>
-                    <div className="cart-items">
-                        {items.filter(item => item.quantity > 0).map(item => (
-                            <div key={item.id} className="cart-item">
-                                <img
-                                    src={getImagePath(item.image)}
-                                    alt={item.name}
-                                    className="item-image"
-                                />
-                                <div className="item-details">
-                                    <span className="item-name">{item.name}</span>
-                                    <span className="item-weight">{item.weight}г</span>
-                                    <span className="item-price">{item.price}₽</span>
-                                </div>
-                                <div className="quantity-control">
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleUpdateQuantity(item.id, -1);
-                                        }}
-                                        className="quantity-button"
-                                    >
-                                        -
-                                    </button>
-                                    <span className="quantity">{item.quantity}</span>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleUpdateQuantity(item.id, 1);
-                                        }}
-                                        className="quantity-button"
-                                    >
-                                        +
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="cart-summary">
-                        <span>Итого</span>
-                        <span className="total-price">{calculateTotal()}₽</span>
-                    </div>
-                    <button
-                        className="order-button"
+            {isMobile && isExpanded && (
+                <div
+                    className="modal-backdrop"
+                    onClick={handleModalBackdropClick}
+                >
+                    <div
+                        className="cart cart-modal"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        Оформить заказ
-                    </button>
-                    {shouldShowDeliveryInfo() && (
-                        <div className="delivery-info">
-                            <span>🚚 Бесплатная доставка</span>
+                        <div className="modal-header">
+                            <div className="cart-desc">
+                                <h2>Корзина</h2>
+                                <div className="quantity-total">
+                                    {calculateTotalQuantity()}
+                                </div>
+                            </div>
+                            <button
+                                className="close-modal-button"
+                                onClick={toggleExpand}
+                            >
+                                ✕
+                            </button>
                         </div>
-                    )}
-                </>
+                        <CartContent
+                            items={items}
+                            isEmpty={isEmpty}
+                            getImagePath={getImagePath}
+                            handleUpdateQuantity={handleUpdateQuantity}
+                            calculateTotal={calculateTotal}
+                            shouldShowDeliveryInfo={shouldShowDeliveryInfo}
+                        />
+                    </div>
+                </div>
             )}
-        </div>
+        </>
     );
 };
 
