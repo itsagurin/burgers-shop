@@ -1,12 +1,39 @@
-import "./Header.scss"
-import logo from "../../assets/header/logo.svg"
-import burger from "../../assets/header/burger.svg"
+import "./Header.scss";
+import logo from "../../assets/header/logo.svg";
+import burger from "../../assets/header/burger.svg";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext.jsx";
 
 const Header = () => {
+    const { currentUser, logout } = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate("/login");
+        } catch (error) {
+            console.error("Ошибка при выходе:", error);
+        }
+    };
+
     return (
         <header>
             <div className="header-content">
-                <a href="#"><img src={logo} className="header-image" alt="logo" /></a>
+                <div className="header-top">
+                    <a href="#"><img src={logo} className="header-image" alt="logo" /></a>
+                    <div className="auth-buttons">
+                        {currentUser ? (
+                            <button className="auth-btn logout-btn" onClick={handleLogout}>
+                                Выйти
+                            </button>
+                        ) : (
+                            <Link to="/login" className="auth-btn login-btn">
+                                Войти
+                            </Link>
+                        )}
+                    </div>
+                </div>
                 <div className="header-text">
                     <img src={burger} alt="burger" />
                     <div className="header_new_text">
@@ -20,6 +47,6 @@ const Header = () => {
             </div>
         </header>
     );
-}
+};
 
 export default Header;

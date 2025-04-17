@@ -6,11 +6,12 @@ import Home from "../components/Home/Home.jsx";
 import Login from "../Pages/Auth/Login/Login.jsx";
 import Register from "../Pages/Auth/Register/Register.jsx";
 import ResetPassword from "../Pages/Auth/ResetPassword/ResetPassword.jsx";
+import { AuthProvider } from "../contexts/AuthContext.jsx";
 
 function App() {
 
     return (
-        <>
+        <AuthProvider>
             <Header />
             <div className="container">
                 <Routes>
@@ -21,7 +22,7 @@ function App() {
                 </Routes>
             </div>
             <Footer/>
-        </>
+        </AuthProvider>
     )
 }
 

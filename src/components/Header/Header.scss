@@ -18,9 +18,46 @@ header {
     align-items: center;
   }
 
+  .header-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 21.85px;
+  }
+
   .header-image {
     display: block;
-    margin-bottom: 21.85px;
+  }
+
+  .auth-buttons {
+    .auth-btn {
+      cursor: pointer;
+      padding: 8px 20px;
+      border: none;
+      border-radius: 12px;
+      background-color: white;
+      font-weight: 400;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      text-decoration: none;
+      color: #000;
+      display: inline-block;
+      text-align: center;
+
+      &:hover {
+        background-color: #FF5C00;
+        color: white;
+      }
+    }
+
+    .logout-btn {
+      background-color: #FF5C00;
+      color: white;
+
+      &:hover {
+        background-color: #e65200;
+      }
+    }
   }
 }
 
@@ -141,6 +178,16 @@ header {
     flex-direction: column;
     align-items: center;
     text-align: center;
+  }
+
+  .header-top {
+    justify-content: center;
+
+    .auth-buttons {
+      position: absolute;
+      top: 24px;
+      right: 15px;
+    }
   }
 
   .header-text {
