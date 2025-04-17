@@ -1,41 +1,24 @@
-import { useState } from 'react';
 import './App.scss';
-import FoodCart from "../components/FoodCart/FoodCart.jsx";
 import Header from "../components/Header/Header.jsx";
-import MenuNavbar from "../components/MenuNavbar/MenuNavbar.jsx";
-import MenuContent from "../components/MenuContent/MenuContent.jsx";
 import Footer from "../components/Footer/Footer.jsx";
-import cartItemsData from "../data/cart/cartItems.json";
+import {Route, Routes} from "react-router";
+import Home from "../components/Home/Home.jsx";
+import Login from "../components/Auth/Login/Login.jsx";
+import Register from "../components/Auth/Register/Register.jsx";
+import ResetPassword from "../components/Auth/ResetPassword/ResetPassword.jsx";
 
 function App() {
-    const [activeCategory, setActiveCategory] = useState('burgers');
-    const [cartItems, setCartItems] = useState(cartItemsData);
-
-    const handleCategoryChange = (categoryId) => {
-        setActiveCategory(categoryId);
-    };
 
     return (
         <>
             <Header />
             <div className="container">
-                <MenuNavbar
-                    activeCategory={activeCategory}
-                    onCategoryChange={handleCategoryChange}
-                />
-                <div className="main-menu">
-                    <div className="menu-section">
-                        <MenuContent
-                            activeCategory={activeCategory}
-                            cartItems={cartItems}
-                            setCartItems={setCartItems}
-                        />
-                    </div>
-                    <FoodCart
-                        cartItems={cartItems}
-                        setCartItems={setCartItems}
-                    />
-                </div>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="/register" element={<Register/>}/>
+                    <Route path="/reset-password" element={<ResetPassword/>}/>
+                </Routes>
             </div>
             <Footer/>
         </>
