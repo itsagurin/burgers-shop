@@ -37,9 +37,7 @@ function App() {
                     />
                 </div>
             </div>
-            <Footer
-                cartItems={cartItems}
-                setCartItems={setCartItems}/>
+            <Footer/>
         </>
     )
 }
