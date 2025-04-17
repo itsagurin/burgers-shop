@@ -3,9 +3,9 @@ import Header from "../components/Header/Header.jsx";
 import Footer from "../components/Footer/Footer.jsx";
 import {Route, Routes} from "react-router";
 import Home from "../components/Home/Home.jsx";
-import Login from "../components/Auth/Login/Login.jsx";
-import Register from "../components/Auth/Register/Register.jsx";
-import ResetPassword from "../components/Auth/ResetPassword/ResetPassword.jsx";
+import Login from "../Pages/Auth/Login/Login.jsx";
+import Register from "../Pages/Auth/Register/Register.jsx";
+import ResetPassword from "../Pages/Auth/ResetPassword/ResetPassword.jsx";
 
 function App() {
 
