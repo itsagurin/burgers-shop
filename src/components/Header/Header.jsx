@@ -21,7 +21,7 @@ const Header = () => {
         <header>
             <div className="header-content">
                 <div className="header-top">
-                    <a href="#"><img src={logo} className="header-image" alt="logo" /></a>
+                    <Link to="/"><img src={logo} className="header-image" alt="logo" /></Link>
                     <div className="auth-buttons">
                         {currentUser ? (
                             <button className="auth-btn logout-btn" onClick={handleLogout}>

@@ -3,39 +3,45 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/footer/footer_logo.svg";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../firebase.js";
+import { auth, database } from "../../../firebase.js";
+import { ref, get } from "firebase/database";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const Login = () => {
     const navigate = useNavigate();
+    const { loading: ctxLoading } = useAuth();
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const handleLogin = async (event) => {
-        event.preventDefault();
+    const handleLogin = async (e) => {
+        e.preventDefault();
         setError(null);
         setLoading(true);
 
-        const email = event.target.email.value;
-        const password = event.target.password.value;
+        const email = e.target.email.value.trim();
+        const password = e.target.password.value;
 
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            console.log("User logged in:", userCredential.user);
+            const cred = await signInWithEmailAndPassword(auth, email, password);
+            const uid = cred.user.uid;
+
+            const userSnap = await get(ref(database, `users/${uid}`));
+            if (!userSnap.exists()) {
+                console.warn("Профиль юзера не найден в RTDB");
+            } else {
+                const profile = userSnap.val();
+                console.log("Профиль из RTDB:", profile);
+            }
 
             navigate("/");
-        } catch (error) {
-            let errorMessage = "Ошибка при входе";
-            if (error.code === 'auth/user-not-found') {
-                errorMessage = "Пользователь с таким email не найден";
-            } else if (error.code === 'auth/wrong-password') {
-                errorMessage = "Неверный пароль";
-            } else if (error.code === 'auth/invalid-email') {
-                errorMessage = "Некорректный email";
-            } else if (error.code === 'auth/too-many-requests') {
-                errorMessage = "Слишком много попыток входа. Попробуйте позже";
-            }
-            console.error("Error logging in:", error);
-            setError(errorMessage);
+        } catch (err) {
+            let msg = "Ошибка при входе";
+            if (err.code === "auth/user-not-found") msg = "Пользователь не найден";
+            else if (err.code === "auth/wrong-password") msg = "Неверный пароль";
+            else if (err.code === "auth/invalid-email") msg = "Некорректный email";
+            else if (err.code === "auth/too-many-requests") msg = "Слишком много попыток";
+            console.error("Login error:", err);
+            setError(msg);
         } finally {
             setLoading(false);
         }
@@ -44,50 +50,25 @@ const Login = () => {
     return (
         <div className="auth-container">
             <div className="auth-form">
-                <div className="auth-logo">
-                    <img src={logo} alt="logo" />
-                </div>
-
+                <div className="auth-logo"><img src={logo} alt="logo" /></div>
                 <h1 className="auth-title">Вход в аккаунт</h1>
-
                 {error && <div className="auth-error">{error}</div>}
-
                 <form onSubmit={handleLogin}>
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Введите ваш email"
-                            required
-                        />
+                        <input type="email" id="email" name="email" required />
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="password">Пароль</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="Введите ваш пароль"
-                            required
-                        />
+                        <input type="password" id="password" name="password" required />
                     </div>
-
-                    <button
-                        type="submit"
-                        className="auth-button"
-                        disabled={loading}
-                    >
+                    <button type="submit" className="auth-button" disabled={loading}>
                         {loading ? "Вход..." : "Войти"}
                     </button>
-
                     <div className="auth-links">
                         <Link to="/reset-password" className="forgot-password">Забыли пароль?</Link>
                         <div className="register-link">
-                            <span>Нет аккаунта?</span>
-                            <Link to="/register">Зарегистрироваться</Link>
+                            <span>Нет аккаунта?</span> <Link to="/register">Зарегистрироваться</Link>
                         </div>
                     </div>
                 </form>
