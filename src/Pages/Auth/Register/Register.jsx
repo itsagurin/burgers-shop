@@ -46,7 +46,7 @@ const Register = () => {
                 createdAt: Date.now()
             });
 
-            navigate("/login");
+            navigate("/account");
         } catch (err) {
             let msg = "Ошибка при регистрации";
             if (err.code === "auth/email-already-in-use") msg = "Этот email уже занят";

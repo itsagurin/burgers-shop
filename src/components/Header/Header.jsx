@@ -5,16 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 
 const Header = () => {
-    const { currentUser, logout } = useAuth();
+    const { currentUser } = useAuth();
     const navigate = useNavigate();
 
-    const handleLogout = async () => {
-        try {
-            await logout();
-            navigate("/login");
-        } catch (error) {
-            console.error("Ошибка при выходе:", error);
-        }
+    const handleAccount = async () => {
+            navigate("/account");
     };
 
     return (
@@ -24,8 +19,8 @@ const Header = () => {
                     <Link to="/"><img src={logo} className="header-image" alt="logo" /></Link>
                     <div className="auth-buttons">
                         {currentUser ? (
-                            <button className="auth-btn logout-btn" onClick={handleLogout}>
-                                Выйти
+                            <button className="auth-btn logout-btn" onClick={handleAccount}>
+                                Аккаунт
                             </button>
                         ) : (
                             <Link to="/login" className="auth-btn login-btn">

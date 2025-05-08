@@ -33,7 +33,7 @@ const Login = () => {
                 console.log("Профиль из RTDB:", profile);
             }
 
-            navigate("/");
+            navigate("/account");
         } catch (err) {
             let msg = "Ошибка при входе";
             if (err.code === "auth/user-not-found") msg = "Пользователь не найден";
