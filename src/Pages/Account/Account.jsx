@@ -1,10 +1,14 @@
 import "./Account.scss";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
-import { signOut, updatePassword } from "firebase/auth";
 import { auth } from "../../firebase.js";
 import logo from "../../assets/footer/footer_logo.svg";
+
+import ProfileTab from "../../components/Account/ProfileTab/ProfileTab.jsx";
+import OrdersTab from "../../components/Account/OrdersTab/OrdersTab.jsx";
+import SettingsTab from "../../components/Account/SettingsTab/SettingsTab.jsx";
+import { fetchUserData, handleUserLogout } from "./Utils/accountUtils.js";
 
 const Account = () => {
     const navigate = useNavigate();
@@ -12,50 +16,46 @@ const Account = () => {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [showPasswordChange, setShowPasswordChange] = useState(false);
-
-    const handleLogout = async () => {
-        try {
-            await signOut(auth);
-            navigate("/login");
-        } catch (err) {
-            console.error("Ошибка при выходе:", err);
-            setError("Ошибка при выходе из аккаунта");
+    const [activeTab, setActiveTab] = useState("profile");
+    const [userData, setUserData] = useState({
+        displayName: "",
+        phone: "",
+        address: "",
+        city: "",
+        zipCode: "",
+        birthday: "",
+        preferences: {
+            emailNotifications: true,
+            smsNotifications: false,
         }
+    });
+    const [missingFields, setMissingFields] = useState([]);
+    const [formData, setFormData] = useState({});
+    const [isNewUser, setIsNewUser] = useState(false);
+
+    useEffect(() => {
+        fetchUserData({
+            currentUser,
+            setLoading,
+            setIsNewUser,
+            setActiveTab,
+            setUserData,
+            setFormData,
+            checkMissingFields,
+            setError
+        });
+    }, [currentUser]);
+
+    const checkMissingFields = () => {
+        const required = ["phone", "address", "city", "zipCode"];
+        const missing = required.filter(field =>
+            !userData[field] || userData[field].trim() === ""
+        );
+        setMissingFields(missing);
     };
 
-    const handlePasswordChange = async (e) => {
-        e.preventDefault();
-        setError(null);
-        setSuccess(null);
-        setLoading(true);
-
-        const newPassword = e.target.newPassword.value;
-        const confirmPassword = e.target.confirmPassword.value;
-
-        if (newPassword !== confirmPassword) {
-            setError("Пароли не совпадают");
-            setLoading(false);
-            return;
-        }
-
-        if (newPassword.length < 6) {
-            setError("Пароль должен быть ≥6 символов");
-            setLoading(false);
-            return;
-        }
-
-        try {
-            await updatePassword(currentUser, newPassword);
-            setSuccess("Пароль успешно изменен");
-            e.target.reset();
-            setShowPasswordChange(false);
-        } catch (err) {
-            console.error("Ошибка при смене пароля:", err);
-            setError("Ошибка при смене пароля. Возможно, требуется повторный вход");
-        } finally {
-            setLoading(false);
-        }
+    const handleLogout = async () => {
+        await handleUserLogout({ auth, navigate, setError });
     };
 
     if (!currentUser) {
@@ -68,86 +68,99 @@ const Account = () => {
 
     return (
         <div className="account-container">
-            <div className="account-card">
+            <div className="account-card expanded">
                 <div className="account-header">
                     <div className="account-logo"><img src={logo} alt="logo" /></div>
                     <h1 className="account-title">Личный кабинет</h1>
+                    {isNewUser && (
+                        <div className="account-welcome">
+                            Добро пожаловать! Пожалуйста, заполните данные для доставки.
+                        </div>
+                    )}
                 </div>
 
                 {error && <div className="account-error">{error}</div>}
                 {success && <div className="account-success">{success}</div>}
 
-                <div className="account-info">
-                    <div className="account-avatar">
-                        {currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : "U"}
+                {missingFields.length > 0 && activeTab !== "profile" && (
+                    <div className="account-warning">
+                        <p>Для быстрого оформления заказов, пожалуйста, заполните: {missingFields.map(field => {
+                            const fieldNames = {
+                                phone: "телефон",
+                                address: "адрес",
+                                city: "город",
+                                zipCode: "индекс"
+                            };
+                            return fieldNames[field];
+                        }).join(", ")}</p>
+                        <button
+                            className="account-button warning"
+                            onClick={() => {
+                                setActiveTab("profile");
+                            }}
+                        >
+                            Заполнить сейчас
+                        </button>
                     </div>
-                    <div className="account-details">
-                        <div className="account-detail-item">
-                            <span className="account-label">Имя пользователя:</span>
-                            <span className="account-value">{currentUser.displayName || "Не указано"}</span>
-                        </div>
-                        <div className="account-detail-item">
-                            <span className="account-label">Email:</span>
-                            <span className="account-value">{currentUser.email}</span>
-                        </div>
-                        <div className="account-detail-item">
-                            <span className="account-label">Дата регистрации:</span>
-                            <span className="account-value">
-                                {currentUser.metadata?.creationTime
-                                    ? new Date(currentUser.metadata.creationTime).toLocaleDateString('ru-RU')
-                                    : "Не указано"}
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                )}
 
-                <div className="account-actions">
+                <div className="account-tabs">
                     <button
-                        className="account-button secondary"
-                        onClick={() => setShowPasswordChange(!showPasswordChange)}
+                        className={`tab-button ${activeTab === "profile" ? "active" : ""}`}
+                        onClick={() => setActiveTab("profile")}
                     >
-                        {showPasswordChange ? "Отменить" : "Изменить пароль"}
+                        Профиль
                     </button>
                     <button
-                        className="account-button primary"
-                        onClick={handleLogout}
+                        className={`tab-button ${activeTab === "orders" ? "active" : ""}`}
+                        onClick={() => setActiveTab("orders")}
                     >
-                        Выйти
+                        История заказов
+                    </button>
+                    <button
+                        className={`tab-button ${activeTab === "settings" ? "active" : ""}`}
+                        onClick={() => setActiveTab("settings")}
+                    >
+                        Настройки
                     </button>
                 </div>
 
-                {showPasswordChange && (
-                    <div className="password-change-section">
-                        <h2 className="section-title">Изменение пароля</h2>
-                        <form onSubmit={handlePasswordChange}>
-                            <div className="form-group">
-                                <label htmlFor="newPassword">Новый пароль</label>
-                                <input
-                                    type="password"
-                                    id="newPassword"
-                                    name="newPassword"
-                                    minLength={6}
-                                    required
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="confirmPassword">Подтвердите пароль</label>
-                                <input
-                                    type="password"
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    required
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className="account-button primary"
-                                disabled={loading}
-                            >
-                                {loading ? "Обновление..." : "Обновить пароль"}
-                            </button>
-                        </form>
-                    </div>
+                {activeTab === "profile" && (
+                    <ProfileTab
+                        userData={userData}
+                        formData={formData}
+                        setFormData={setFormData}
+                        currentUser={currentUser}
+                        loading={loading}
+                        setLoading={setLoading}
+                        setError={setError}
+                        setSuccess={setSuccess}
+                        setUserData={setUserData}
+                        setIsNewUser={setIsNewUser}
+                        isNewUser={isNewUser}
+                        checkMissingFields={checkMissingFields}
+                    />
+                )}
+
+                {activeTab === "orders" && (
+                    <OrdersTab />
+                )}
+
+                {activeTab === "settings" && (
+                    <SettingsTab
+                        currentUser={currentUser}
+                        formData={formData}
+                        setFormData={setFormData}
+                        loading={loading}
+                        setLoading={setLoading}
+                        setError={setError}
+                        setSuccess={setSuccess}
+                        handleProfileSave={(data) => {
+                            setUserData(data);
+                            setSuccess("Настройки успешно сохранены");
+                        }}
+                        handleLogout={handleLogout}
+                    />
                 )}
             </div>
         </div>
