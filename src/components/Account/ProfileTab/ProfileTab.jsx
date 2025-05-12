@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { updateProfile } from "firebase/auth";
-import { ref, update } from "firebase/database"; // Изменено с Firestore на Realtime DB
+import { ref, update } from "firebase/database";
 import { database } from "../../../firebase.js";
 
 const ProfileTab = ({

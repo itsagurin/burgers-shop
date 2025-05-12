@@ -9,6 +9,7 @@ import ResetPassword from "../Pages/Auth/ResetPassword/ResetPassword.jsx";
 import { AuthProvider } from "../contexts/AuthContext.jsx";
 import Account from "../Pages/Account/Account.jsx";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.jsx";
+import AdminPanel from "../Pages/AdminPanel/AdminPanel.jsx";
 
 function App() {
     return (
@@ -25,6 +26,14 @@ function App() {
                         element={
                             <ProtectedRoute>
                                 <Account/>
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path="/admin"
+                        element={
+                            <ProtectedRoute>
+                                <AdminPanel/>
                             </ProtectedRoute>
                         }
                     />

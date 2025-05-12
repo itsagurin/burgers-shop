@@ -1,3 +1,4 @@
+// Модификация Login.jsx
 import "./Login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/footer/footer_logo.svg";
@@ -28,12 +29,20 @@ const Login = () => {
             const userSnap = await get(ref(database, `users/${uid}`));
             if (!userSnap.exists()) {
                 console.warn("Профиль юзера не найден в RTDB");
+                navigate("/account");
             } else {
                 const profile = userSnap.val();
                 console.log("Профиль из RTDB:", profile);
-            }
 
-            navigate("/account");
+                // Проверяем, является ли пользователь администратором
+                if (profile.role === "admin") {
+                    localStorage.setItem("isAdmin", "true");
+                    navigate("/admin");
+                } else {
+                    localStorage.removeItem("isAdmin");
+                    navigate("/account");
+                }
+            }
         } catch (err) {
             let msg = "Ошибка при входе";
             if (err.code === "auth/user-not-found") msg = "Пользователь не найден";
