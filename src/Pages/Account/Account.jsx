@@ -1,6 +1,6 @@
 import "./Account.scss";
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext.jsx";
 import { auth } from "../../firebase.js";
 import logo from "../../assets/footer/footer_logo.svg";

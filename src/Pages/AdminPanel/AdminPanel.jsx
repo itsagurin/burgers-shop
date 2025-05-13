@@ -80,7 +80,6 @@ const AdminPanel = () => {
         const { name, value } = e.target;
 
         if (name.includes('.')) {
-            // Обработка вложенных полей (например, preferences.emailNotifications)
             const [parent, child] = name.split('.');
             setEditForm({
                 ...editForm,
@@ -102,13 +101,9 @@ const AdminPanel = () => {
 
         try {
             const userRef = ref(database, `users/${editUser.uid}`);
-
-            // Удаляем uid из данных перед сохранением
             const { ...userData } = editForm;
-
             await set(userRef, userData);
 
-            // Обновляем список пользователей
             setUsers(users.map(user =>
                 user.uid === editUser.uid ? { uid: editUser.uid, ...userData } : user
             ));
@@ -159,7 +154,7 @@ const AdminPanel = () => {
                                         name="email"
                                         value={editForm.email || ''}
                                         onChange={handleEditFormChange}
-                                        readOnly // Email не меняем
+                                        readOnly
                                     />
                                 </div>
                                 <div className="form-group">

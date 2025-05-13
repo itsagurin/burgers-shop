@@ -1,4 +1,3 @@
-// Модификация Login.jsx
 import "./Login.scss";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/footer/footer_logo.svg";
@@ -34,7 +33,6 @@ const Login = () => {
                 const profile = userSnap.val();
                 console.log("Профиль из RTDB:", profile);
 
-                // Проверяем, является ли пользователь администратором
                 if (profile.role === "admin") {
                     localStorage.setItem("isAdmin", "true");
                     navigate("/admin");

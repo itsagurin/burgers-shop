@@ -45,26 +45,21 @@ const ProfileTab = ({
             setError(null);
             setSuccess(null);
 
-            // Update profile in Firebase Auth
             if (formData.displayName !== currentUser.displayName) {
                 await updateProfile(currentUser, {
                     displayName: formData.displayName
                 });
             }
 
-            // Update profile in Realtime Database (вместо Firestore)
             const userRef = ref(database, `users/${currentUser.uid}`);
             await update(userRef, formData);
 
-            // Update local state
             setUserData(formData);
             setEditMode(false);
             setSuccess("Профиль успешно обновлен");
 
-            // Recheck missing fields
             checkMissingFields();
 
-            // If this was a new user, mark welcome message as shown
             if (isNewUser) {
                 setIsNewUser(false);
             }
@@ -76,7 +71,6 @@ const ProfileTab = ({
         }
     };
 
-    // Cancel edit mode
     const handleCancel = () => {
         setFormData(userData);
         setEditMode(false);
