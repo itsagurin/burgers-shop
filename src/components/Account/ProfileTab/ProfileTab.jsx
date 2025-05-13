@@ -2,6 +2,7 @@ import { useState } from "react";
 import { updateProfile } from "firebase/auth";
 import { ref, update } from "firebase/database";
 import { database } from "../../../firebase.js";
+import "./ProfileTab.scss";
 
 const ProfileTab = ({
                         userData,

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { updatePassword } from "firebase/auth";
+import "./SettingsTab.scss"
 
 const SettingsTab = ({
                          currentUser,
@@ -108,13 +109,15 @@ const SettingsTab = ({
                                         required
                                     />
                                 </div>
-                                <button
-                                    type="submit"
-                                    className="account-button primary"
-                                    disabled={loading}
-                                >
-                                    {loading ? "Обновление..." : "Обновить пароль"}
-                                </button>
+                                <div className="form-actions">
+                                    <button
+                                        type="submit"
+                                        className="account-button primary"
+                                        disabled={loading}
+                                    >
+                                        {loading ? "Обновление..." : "Обновить пароль"}
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     )}

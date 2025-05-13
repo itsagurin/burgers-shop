@@ -1,0 +1,58 @@
+.orders-section {
+  .section-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  .no-orders {
+    text-align: center;
+    padding: 40px 0;
+
+    .no-orders-img {
+      width: 80px;
+      height: 80px;
+      opacity: 0.5;
+      margin-bottom: 15px;
+    }
+
+    p {
+      color: #777;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+
+    .account-button {
+      display: inline-block;
+      max-width: 200px;
+    }
+  }
+}
+
+.account-button {
+  display: inline-block;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  &.primary {
+    background-color: #FF5C00;
+    color: white;
+
+    &:hover:not(:disabled) {
+      background-color: darken(#FF5C00, 5%);
+    }
+  }
+}
