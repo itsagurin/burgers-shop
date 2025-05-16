@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { database } from "../../firebase.js";
 import { ref, get, set, remove } from "firebase/database";
 import logo from "../../assets/footer/footer_logo.svg";
+import ProductsPanel from "../../components/Admin/ProductsPanel/ProductsPanel.jsx";
 
 const AdminPanel = () => {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ const AdminPanel = () => {
     const [error, setError] = useState(null);
     const [editUser, setEditUser] = useState(null);
     const [editForm, setEditForm] = useState({});
+    const [activeTab, setActiveTab] = useState("users"); // "users" или "products"
 
     useEffect(() => {
         const isAdmin = localStorage.getItem("isAdmin");
@@ -20,8 +22,10 @@ const AdminPanel = () => {
             return;
         }
 
-        fetchUsers();
-    }, [navigate]);
+        if (activeTab === "users") {
+            fetchUsers();
+        }
+    }, [navigate, activeTab]);
 
     const fetchUsers = async () => {
         try {
@@ -116,6 +120,13 @@ const AdminPanel = () => {
         }
     };
 
+    const handleTabChange = (tab) => {
+        setActiveTab(tab);
+        setEditUser(null);
+        setEditForm({});
+        setError(null);
+    };
+
     return (
         <div className="admin-container">
             <div className="admin-header">
@@ -124,166 +135,185 @@ const AdminPanel = () => {
                 <button className="admin-logout" onClick={handleLogout}>Выйти</button>
             </div>
 
+            <div className="admin-tabs">
+                <button
+                    className={`admin-tab ${activeTab === "users" ? "active" : ""}`}
+                    onClick={() => handleTabChange("users")}
+                >
+                    Пользователи
+                </button>
+                <button
+                    className={`admin-tab ${activeTab === "products" ? "active" : ""}`}
+                    onClick={() => handleTabChange("products")}
+                >
+                    Продукты
+                </button>
+            </div>
+
             {error && <div className="admin-error">{error}</div>}
 
-            {loading ? (
-                <div className="admin-loading">Загрузка пользователей...</div>
-            ) : (
-                <div className="admin-content">
-                    <h2>Список пользователей ({users.length})</h2>
+            <div className="admin-content">
+                {activeTab === "users" ? (
+                    <>
+                        <h2>Список пользователей ({users.length})</h2>
 
-                    {editUser ? (
-                        <div className="edit-user-form">
-                            <h3>Редактирование пользователя</h3>
-                            <form onSubmit={handleEditSubmit}>
-                                <div className="form-group">
-                                    <label htmlFor="username">Имя пользователя</label>
-                                    <input
-                                        type="text"
-                                        id="username"
-                                        name="username"
-                                        value={editForm.username || ''}
-                                        onChange={handleEditFormChange}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="email">Email</label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        value={editForm.email || ''}
-                                        onChange={handleEditFormChange}
-                                        readOnly
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="phone">Телефон</label>
-                                    <input
-                                        type="text"
-                                        id="phone"
-                                        name="phone"
-                                        value={editForm.phone || ''}
-                                        onChange={handleEditFormChange}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="address">Адрес</label>
-                                    <input
-                                        type="text"
-                                        id="address"
-                                        name="address"
-                                        value={editForm.address || ''}
-                                        onChange={handleEditFormChange}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="city">Город</label>
-                                    <input
-                                        type="text"
-                                        id="city"
-                                        name="city"
-                                        value={editForm.city || ''}
-                                        onChange={handleEditFormChange}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="zipCode">Индекс</label>
-                                    <input
-                                        type="text"
-                                        id="zipCode"
-                                        name="zipCode"
-                                        value={editForm.zipCode || ''}
-                                        onChange={handleEditFormChange}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="birthday">Дата рождения</label>
-                                    <input
-                                        type="date"
-                                        id="birthday"
-                                        name="birthday"
-                                        value={editForm.birthday || ''}
-                                        onChange={handleEditFormChange}
-                                    />
-                                </div>
+                        {loading ? (
+                            <div className="admin-loading">Загрузка пользователей...</div>
+                        ) : editUser ? (
+                            <div className="edit-user-form">
+                                <h3>Редактирование пользователя</h3>
+                                <form onSubmit={handleEditSubmit}>
+                                    <div className="form-group">
+                                        <label htmlFor="username">Имя пользователя</label>
+                                        <input
+                                            type="text"
+                                            id="username"
+                                            name="username"
+                                            value={editForm.username || ''}
+                                            onChange={handleEditFormChange}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="email">Email</label>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={editForm.email || ''}
+                                            onChange={handleEditFormChange}
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="phone">Телефон</label>
+                                        <input
+                                            type="text"
+                                            id="phone"
+                                            name="phone"
+                                            value={editForm.phone || ''}
+                                            onChange={handleEditFormChange}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="address">Адрес</label>
+                                        <input
+                                            type="text"
+                                            id="address"
+                                            name="address"
+                                            value={editForm.address || ''}
+                                            onChange={handleEditFormChange}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="city">Город</label>
+                                        <input
+                                            type="text"
+                                            id="city"
+                                            name="city"
+                                            value={editForm.city || ''}
+                                            onChange={handleEditFormChange}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="zipCode">Индекс</label>
+                                        <input
+                                            type="text"
+                                            id="zipCode"
+                                            name="zipCode"
+                                            value={editForm.zipCode || ''}
+                                            onChange={handleEditFormChange}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="birthday">Дата рождения</label>
+                                        <input
+                                            type="date"
+                                            id="birthday"
+                                            name="birthday"
+                                            value={editForm.birthday || ''}
+                                            onChange={handleEditFormChange}
+                                        />
+                                    </div>
 
-                                <div className="form-group">
-                                    <label>Уведомления по email</label>
-                                    <select
-                                        name="preferences.emailNotifications"
-                                        value={editForm.preferences?.emailNotifications || false}
-                                        onChange={handleEditFormChange}
-                                    >
-                                        <option value={true}>Включены</option>
-                                        <option value={false}>Выключены</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <label>SMS уведомления</label>
-                                    <select
-                                        name="preferences.smsNotifications"
-                                        value={editForm.preferences?.smsNotifications || false}
-                                        onChange={handleEditFormChange}
-                                    >
-                                        <option value={true}>Включены</option>
-                                        <option value={false}>Выключены</option>
-                                    </select>
-                                </div>
+                                    <div className="form-group">
+                                        <label>Уведомления по email</label>
+                                        <select
+                                            name="preferences.emailNotifications"
+                                            value={editForm.preferences?.emailNotifications || false}
+                                            onChange={handleEditFormChange}
+                                        >
+                                            <option value={true}>Включены</option>
+                                            <option value={false}>Выключены</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>SMS уведомления</label>
+                                        <select
+                                            name="preferences.smsNotifications"
+                                            value={editForm.preferences?.smsNotifications || false}
+                                            onChange={handleEditFormChange}
+                                        >
+                                            <option value={true}>Включены</option>
+                                            <option value={false}>Выключены</option>
+                                        </select>
+                                    </div>
 
-                                <div className="form-actions">
-                                    <button type="submit" className="admin-button save">Сохранить</button>
-                                    <button type="button" className="admin-button cancel" onClick={handleEditCancel}>Отмена</button>
-                                </div>
-                            </form>
-                        </div>
-                    ) : (
-                        <table className="users-table">
-                            <thead>
-                            <tr>
-                                <th>Имя пользователя</th>
-                                <th>Email</th>
-                                <th>Телефон</th>
-                                <th>Адрес</th>
-                                <th>Город</th>
-                                <th>Действия</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {users.length > 0 ? (
-                                users.map(user => (
-                                    <tr key={user.uid}>
-                                        <td>{user.username || user.displayName || '-'}</td>
-                                        <td>{user.email || '-'}</td>
-                                        <td>{user.phone || '-'}</td>
-                                        <td>{user.address || '-'}</td>
-                                        <td>{user.city || '-'}</td>
-                                        <td className="actions">
-                                            <button
-                                                className="admin-button edit"
-                                                onClick={() => handleEditClick(user)}
-                                            >
-                                                Редактировать
-                                            </button>
-                                            <button
-                                                className="admin-button delete"
-                                                onClick={() => handleDeleteUser(user.uid)}
-                                            >
-                                                Удалить
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))
-                            ) : (
+                                    <div className="form-actions">
+                                        <button type="submit" className="admin-button save">Сохранить</button>
+                                        <button type="button" className="admin-button cancel" onClick={handleEditCancel}>Отмена</button>
+                                    </div>
+                                </form>
+                            </div>
+                        ) : (
+                            <table className="users-table">
+                                <thead>
                                 <tr>
-                                    <td colSpan="6" className="no-users">Нет пользователей</td>
+                                    <th>Имя пользователя</th>
+                                    <th>Email</th>
+                                    <th>Телефон</th>
+                                    <th>Адрес</th>
+                                    <th>Город</th>
+                                    <th>Действия</th>
                                 </tr>
-                            )}
-                            </tbody>
-                        </table>
-                    )}
-                </div>
-            )}
+                                </thead>
+                                <tbody>
+                                {users.length > 0 ? (
+                                    users.map(user => (
+                                        <tr key={user.uid}>
+                                            <td>{user.username || user.displayName || '-'}</td>
+                                            <td>{user.email || '-'}</td>
+                                            <td>{user.phone || '-'}</td>
+                                            <td>{user.address || '-'}</td>
+                                            <td>{user.city || '-'}</td>
+                                            <td className="actions">
+                                                <button
+                                                    className="admin-button edit"
+                                                    onClick={() => handleEditClick(user)}
+                                                >
+                                                    Редактировать
+                                                </button>
+                                                <button
+                                                    className="admin-button delete"
+                                                    onClick={() => handleDeleteUser(user.uid)}
+                                                >
+                                                    Удалить
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="6" className="no-users">Нет пользователей</td>
+                                    </tr>
+                                )}
+                                </tbody>
+                            </table>
+                        )}
+                    </>
+                ) : (
+                    <ProductsPanel />
+                )}
+            </div>
         </div>
     );
 };
