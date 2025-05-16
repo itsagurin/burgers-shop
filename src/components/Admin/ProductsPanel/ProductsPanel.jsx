@@ -24,19 +24,7 @@ const ProductsPanel = () => {
     const fetchProducts = async () => {
         try {
             setLoading(true);
-            // Используем импортированные данные или загружаем через fetch
-            // Вариант 1: Использование импортированных данных
             setCategories(productsData);
-
-            // Вариант 2: Fetch с сервера (раскомментируйте если используете)
-            /*
-            const response = await fetch('/api/products');
-            if (!response.ok) {
-                throw new Error('Не удалось загрузить данные');
-            }
-            const data = await response.json();
-            setCategories(data);
-            */
         } catch (err) {
             console.error("Ошибка при загрузке продуктов:", err);
             setError("Не удалось загрузить список продуктов");
@@ -51,19 +39,14 @@ const ProductsPanel = () => {
         }
 
         try {
-            // Создаем копию категорий
             const updatedCategories = { ...categories };
-            // Фильтруем продукты, удаляя продукт с указанным id
             updatedCategories[categoryKey].items = updatedCategories[categoryKey].items.filter(
                 product => product.id !== productId
             );
 
             setCategories(updatedCategories);
 
-            // В реальном проекте тут был бы запрос на обновление JSON-файла на сервере
             console.log("Продукт удален. Обновленные категории:", updatedCategories);
-
-            // Симуляция сохранения на сервере
             alert("Продукт успешно удален! В реальном проекте данные были бы сохранены на сервере.");
         } catch (err) {
             console.error("Ошибка при удалении продукта:", err);
@@ -94,11 +77,7 @@ const ProductsPanel = () => {
 
         try {
             const { categoryKey, id, name, price, weight, image } = editForm;
-
-            // Создаем копию категорий
             const updatedCategories = { ...categories };
-
-            // Находим и обновляем продукт
             const productIndex = updatedCategories[categoryKey].items.findIndex(item => item.id === id);
 
             if (productIndex !== -1) {
@@ -112,10 +91,8 @@ const ProductsPanel = () => {
 
                 setCategories(updatedCategories);
 
-                // В реальном проекте тут был бы запрос на обновление JSON-файла на сервере
                 console.log("Продукт обновлен. Обновленные категории:", updatedCategories);
 
-                // Симуляция сохранения на сервере
                 alert("Продукт успешно обновлен! В реальном проекте данные были бы сохранены на сервере.");
 
                 setEditProduct(null);
@@ -150,15 +127,12 @@ const ProductsPanel = () => {
                 return;
             }
 
-            // Создаем копию категорий
             const updatedCategories = { ...categories };
 
-            // Генерируем новый ID (в реальном проекте это делал бы сервер)
             const newId = String(Math.max(...Object.values(categories)
                 .flatMap(cat => cat.items)
                 .map(item => parseInt(item.id))) + 1);
 
-            // Добавляем новый продукт
             updatedCategories[category].items.push({
                 id: newId,
                 name,
@@ -169,13 +143,10 @@ const ProductsPanel = () => {
 
             setCategories(updatedCategories);
 
-            // В реальном проекте тут был бы запрос на обновление JSON-файла на сервере
             console.log("Продукт добавлен. Обновленные категории:", updatedCategories);
 
-            // Симуляция сохранения на сервере
             alert("Продукт успешно добавлен! В реальном проекте данные были бы сохранены на сервере.");
 
-            // Сбрасываем форму
             setAddProductForm({
                 name: "",
                 price: "",
